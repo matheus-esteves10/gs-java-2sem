@@ -10,8 +10,6 @@ public class Usuario {
     private LocalDate dataNacimento;
     private String email;
     private String senha;
-    private List<Cursos> cursosEmAndamento;
-    private List<Cursos> cursosConcluidos;
 
     public Usuario() {
     }
@@ -24,15 +22,6 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public Usuario(String nome, String cpf, LocalDate dataNacimento, String email, String senha, List<Cursos> cursosEmAndamento, List<Cursos> cursosConcluidos) {
-        this.nome = nome;
-        setCpf(cpf);
-        this.dataNacimento = dataNacimento;
-        this.email = email;
-        this.senha = senha;
-        this.cursosEmAndamento = cursosEmAndamento;
-        this.cursosConcluidos = cursosConcluidos;
-    }
 
     public String getNome() {
         return nome;
@@ -78,21 +67,6 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public List<Cursos> getCursosEmAndamento() {
-        return cursosEmAndamento;
-    }
-
-    public void setCursosEmAndamento(List<Cursos> cursosEmAndamento) {
-        this.cursosEmAndamento = cursosEmAndamento;
-    }
-
-    public List<Cursos> getCursosConcluidos() {
-        return cursosConcluidos;
-    }
-
-    public void setCursosConcluidos(List<Cursos> cursosConcluidos) {
-        this.cursosConcluidos = cursosConcluidos;
-    }
 
 
     public boolean isCpfValid(String cpf) {
