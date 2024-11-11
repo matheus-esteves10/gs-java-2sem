@@ -1,4 +1,4 @@
-package br.com.fiap;
+package br.com.fiap.resource;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
