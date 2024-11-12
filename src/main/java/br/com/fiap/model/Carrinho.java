@@ -5,7 +5,7 @@ public class Carrinho {
     private Long id;
     private String nomeItem;
     private float valor;
-    private int quantidade;
+    private Integer quantidade;
 
     private boolean isPago;
     private Long idPessoa;
@@ -13,7 +13,7 @@ public class Carrinho {
     public Carrinho() {
     }
 
-    public Carrinho(String nomeItem, float valor, int quantidade) {
+    public Carrinho(String nomeItem, float valor, Integer quantidade) {
         this.nomeItem = nomeItem;
         this.valor = valor;
         this.quantidade = quantidade;
@@ -40,11 +40,11 @@ public class Carrinho {
         this.valor = valor;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -60,7 +60,7 @@ public class Carrinho {
         return idPessoa;
     }
 
-    public float calcularTotal(float valor, int quantidade) {
+    public float calcularTotal(float valor, Integer quantidade) {
         return valor * quantidade;
     }
 
