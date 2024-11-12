@@ -3,6 +3,7 @@ package br.com.fiap.model;
 public class Carrinho {
 
     private Long id;
+    private String nomeItem;
     private float valor;
     private int quantidade;
     private Long idPessoa;
@@ -10,7 +11,8 @@ public class Carrinho {
     public Carrinho() {
     }
 
-    public Carrinho(float valor, int quantidade) {
+    public Carrinho(String nomeItem, float valor, int quantidade) {
+        this.nomeItem = nomeItem;
         this.valor = valor;
         this.quantidade = quantidade;
         calcularTotal(valor,quantidade);
@@ -18,6 +20,14 @@ public class Carrinho {
 
     public Long getId() {
         return id;
+    }
+
+    public String getNomeItem() {
+        return nomeItem;
+    }
+
+    public void setNomeItem(String nomeItem) {
+        this.nomeItem = nomeItem;
     }
 
     public float getValor() {

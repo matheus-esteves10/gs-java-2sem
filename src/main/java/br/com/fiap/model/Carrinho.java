@@ -6,6 +6,8 @@ public class Carrinho {
     private String nomeItem;
     private float valor;
     private int quantidade;
+
+    private boolean isPago;
     private Long idPessoa;
 
     public Carrinho() {
@@ -46,11 +48,27 @@ public class Carrinho {
         this.quantidade = quantidade;
     }
 
+    public boolean isPago() {
+        return isPago;
+    }
+
+    public void setPago(boolean pago) {
+        isPago = pago;
+    }
+
     public Long getIdPessoa() {
         return idPessoa;
     }
 
     public float calcularTotal(float valor, int quantidade) {
         return valor * quantidade;
+    }
+
+    public boolean isPago(boolean isPago){
+        if (isPago){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
