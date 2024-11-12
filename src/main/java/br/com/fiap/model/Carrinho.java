@@ -13,11 +13,12 @@ public class Carrinho {
     public Carrinho() {
     }
 
-    public Carrinho(String nomeItem, float valor, Integer quantidade) {
+    public Carrinho(String nomeItem, float valor, Integer quantidade, boolean isPago) {
         this.nomeItem = nomeItem;
         this.valor = valor;
         this.quantidade = quantidade;
-        calcularTotal(valor,quantidade);
+        setPago(isPago);
+        float valorTotal = calcularTotal(valor, quantidade);
     }
 
     public Long getId() {
@@ -53,7 +54,11 @@ public class Carrinho {
     }
 
     public void setPago(boolean pago) {
-        isPago = pago;
+        if(pago(isPago) == true) {
+            this.isPago = pago;
+        } else {
+            throw new RuntimeException("O item precisa ser pago para ser adicionado a lista de comprados");
+        }
     }
 
     public Long getIdPessoa() {
@@ -64,7 +69,7 @@ public class Carrinho {
         return valor * quantidade;
     }
 
-    public boolean isPago(boolean isPago){
+    public boolean pago(boolean isPago){
         if (isPago){
             return true;
         } else {

@@ -26,7 +26,7 @@ public class CarrinhoController {
     public Response add (CarrinhoDto carrinhoDto) throws UnsupportedServiceOperationException{
         if(carrinhoDto.id() == null & carrinhoDto.isPago()){
             try{
-                Carrinho carrinho = this.serviceCarrinho.adicionar(new Carrinho(carrinhoDto.nomeItem(), carrinhoDto.valor(), carrinhoDto.quantidade()));
+                Carrinho carrinho = this.serviceCarrinho.adicionar(new Carrinho(carrinhoDto.nomeItem(), carrinhoDto.valor(), carrinhoDto.quantidade(), carrinhoDto.isPago()));
                 return Response.status(Response.Status.CREATED).
                         entity(carrinho).build();
             } catch (SQLException | NotSavedException e){
