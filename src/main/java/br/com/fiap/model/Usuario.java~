@@ -11,7 +11,7 @@ public class Usuario {
     private LocalDate dataNacimento;
     private String email;
     private String senha;
-    private List<Item> itensCompra;
+    private List<Carrinho> itensCompra;
 
     public Usuario() {
     }

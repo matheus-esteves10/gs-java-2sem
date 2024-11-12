@@ -16,7 +16,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String senha, String email, LocalDate dataNacimento, String cpf, String nome) {
+    public Usuario(Long id, String senha, String email, LocalDate dataNacimento, String cpf, String nome) {
+        this.id = id;
         this.senha = senha;
         this.email = email;
         this.dataNacimento = dataNacimento;
