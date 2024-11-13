@@ -1,15 +1,15 @@
-package br.com.fiap.service.carrinho;
+package br.com.fiap.service.itemCompra;
 
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.exceptions.UnsupportedServiceOperationException;
-import br.com.fiap.model.Carrinho;
+import br.com.fiap.model.Compra;
 
 import java.sql.SQLException;
 
-public interface ServiceCarrinho {
+public interface ServiceCompra {
 
-    Carrinho adicionar(Carrinho carrinho) throws UnsupportedServiceOperationException, SQLException, NotSavedException;
+    Compra adicionar(Compra compra) throws UnsupportedServiceOperationException, SQLException, NotSavedException;
 
     void remover(Long id) throws NotFoundException, SQLException;
 }

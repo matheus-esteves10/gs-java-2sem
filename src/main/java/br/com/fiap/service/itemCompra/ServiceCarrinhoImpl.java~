@@ -1,0 +1,41 @@
+package br.com.fiap.service.carrinho;
+
+import br.com.fiap.config.DatabaseConnectionFactory;
+import br.com.fiap.dao.carrinho.DaoItemCompra;
+import br.com.fiap.dao.carrinho.DaoItemCompraFactory;
+import br.com.fiap.exceptions.NotFoundException;
+
+import br.com.fiap.exceptions.NotSavedException;
+import br.com.fiap.exceptions.UnsupportedServiceOperationException;
+import br.com.fiap.model.ItemCompra;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class ServiceCarrinhoImpl implements ServiceCarrinho {
+
+    private final DaoItemCompra dao = DaoItemCompraFactory.create();
+    @Override
+    public ItemCompra adicionar(ItemCompra itemCompra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
+        if(itemCompra.isPago() && itemCompra.getId() == null) {
+            Connection connection = DatabaseConnectionFactory.create().get();
+            try{
+                itemCompra = this.dao.save(itemCompra, connection);
+                connection.commit();
+                return itemCompra;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
+        } else {
+            throw new UnsupportedServiceOperationException();
+        }
+    }
+
+    @Override
+    public void remover(Long id) throws NotFoundException, SQLException {
+        Connection connection = DatabaseConnectionFactory.create().get();
+        this.dao.remover(id, connection);
+        connection.commit();
+    }
+}

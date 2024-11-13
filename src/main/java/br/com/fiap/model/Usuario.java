@@ -10,15 +10,18 @@ public class Usuario {
     private String cpf;
     private LocalDate dataNacimento;
     private String email;
+
+    private String endereco;
     private String senha;
-    private List<Carrinho> itensCompra;
+    private List<Compra> itensCompra;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String senha, String email, LocalDate dataNacimento, String cpf, String nome) {
+    public Usuario(Long id, String senha,String endereco, String email, LocalDate dataNacimento, String cpf, String nome) {
         this.id = id;
         this.senha = senha;
+        this.endereco = endereco;
         this.email = email;
         this.dataNacimento = dataNacimento;
         setCpf(cpf);
@@ -73,7 +76,13 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
 
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
 
     public boolean isCpfValid(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", ""); // Remover caracteres não numéricos

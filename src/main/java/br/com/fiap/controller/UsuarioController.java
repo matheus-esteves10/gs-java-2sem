@@ -25,7 +25,7 @@ public class UsuarioController {
     public Response add(UsuarioDto usuarioDto) throws UnsupportedServiceOperationException {
         if (usuarioDto.id() == null) {
             try {
-                Usuario usuario = this.serviceUsuario.create(new Usuario(null,usuarioDto.senha(), usuarioDto.email(), usuarioDto.dataNascimento(), usuarioDto.cpf(), usuarioDto.nome()));
+                Usuario usuario = this.serviceUsuario.create(new Usuario(null,usuarioDto.senha(), usuarioDto.endereco(), usuarioDto.email(), usuarioDto.dataNascimento(), usuarioDto.cpf(), usuarioDto.nome()));
                 return Response.status(Response.Status.CREATED).
                         entity(usuario).
                         build();
@@ -49,7 +49,7 @@ public class UsuarioController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") Long id, UsuarioDto usuarioDto) {
         try {
-            Usuario updated = this.serviceUsuario.update(new Usuario(id,usuarioDto.senha(), usuarioDto.email(), usuarioDto.dataNascimento(), usuarioDto.cpf(), usuarioDto.nome()));
+            Usuario updated = this.serviceUsuario.update(new Usuario(id,usuarioDto.senha(), usuarioDto.endereco(), usuarioDto.email(), usuarioDto.dataNascimento(), usuarioDto.cpf(), usuarioDto.nome()));
             return Response.status(Response.Status.OK).entity(updated).build();
         } catch (NotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).build();

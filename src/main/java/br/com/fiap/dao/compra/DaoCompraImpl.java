@@ -1,24 +1,24 @@
-package br.com.fiap.dao.carrinho;
+package br.com.fiap.dao.compra;
 
-import br.com.fiap.model.Carrinho;
+import br.com.fiap.model.Compra;
 
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-public class DaoCarrinhoImpl implements DaoCarrinho {
+public class DaoCompraImpl implements DaoCompra {
 
     private Connection connection;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public DaoCarrinhoImpl() {
+    public DaoCompraImpl() {
     }
 
-    public DaoCarrinhoImpl(Connection connection) {
+    public DaoCompraImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Carrinho save(Carrinho carrinho, Connection connection) {
+    public Compra save(Compra compra, Connection connection) {
         return null;
     }
 
