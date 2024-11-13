@@ -17,7 +17,7 @@ public class ServiceCompraImpl implements ServiceCompra {
     private final DaoCompra dao = DaoCompraFactory.create();
     @Override
     public Compra adicionar(Compra compra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
-        if(compra.isPago() && compra.getId() == null) {
+        if(compra.isPago() && compra.getIdCompra() == null) {
             Connection connection = DatabaseConnectionFactory.create().get();
             try{
                 compra = this.dao.save(compra, connection);

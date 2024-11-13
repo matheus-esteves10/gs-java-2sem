@@ -1,28 +1,28 @@
 package br.com.fiap.service.itemCompra;
 
 import br.com.fiap.config.DatabaseConnectionFactory;
-import br.com.fiap.dao.itemCompra.DaoItemCompra;
-import br.com.fiap.dao.itemCompra.DaoItemCompraFactory;
+import br.com.fiap.dao.compra.DaoCompra;
+import br.com.fiap.dao.compra.DaoCompraFactory;
 import br.com.fiap.exceptions.NotFoundException;
 
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.exceptions.UnsupportedServiceOperationException;
-import br.com.fiap.model.ItemCompra;
+import br.com.fiap.model.Compra;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ServiceItemCompraImpl implements ServiceItemCompra {
+public class ServiceCompraImpl implements ServiceCompra {
 
-    private final DaoItemCompra dao = DaoItemCompraFactory.create();
+    private final DaoCompra dao = DaoCompraFactory.create();
     @Override
-    public ItemCompra adicionar(ItemCompra itemCompra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
-        if(itemCompra.isPago() && itemCompra.getId() == null) {
+    public Compra adicionar(Compra compra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
+        if(compra.isPago() && compra.getId() == null) {
             Connection connection = DatabaseConnectionFactory.create().get();
             try{
-                itemCompra = this.dao.save(itemCompra, connection);
+                compra = this.dao.save(compra, connection);
                 connection.commit();
-                return itemCompra;
+                return compra;
             } catch (SQLException e) {
                 connection.rollback();
                 throw e;
