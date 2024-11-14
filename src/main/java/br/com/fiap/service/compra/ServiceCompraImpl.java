@@ -1,11 +1,17 @@
 package br.com.fiap.service.compra;
 
+import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.dao.compra.DaoCompra;
 import br.com.fiap.dao.compra.DaoCompraFactory;
 import br.com.fiap.exceptions.NotFoundException;
+import br.com.fiap.exceptions.NotSavedException;
+import br.com.fiap.exceptions.UnsupportedServiceOperationException;
+import br.com.fiap.model.Compra;
 import br.com.fiap.model.CompraProduto;
 import br.com.fiap.model.Produto;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +64,23 @@ public class ServiceCompraImpl implements ServiceCompra {
         }
 
         return valorTotal;
+    }
+
+    @Override
+    public Compra save(Compra compra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
+        if(compra.getIdCompra() == null) {
+            Connection connection = DatabaseConnectionFactory.create().get();
+            try {
+                compra = this.dao.save(compra, connection);
+                connection.commit();
+                return compra;
+            } catch (SQLException | NotSavedException e) {
+                connection.rollback();
+                throw e;
+            }
+        } else {
+            throw new UnsupportedServiceOperationException();
+        }
     }
 
 

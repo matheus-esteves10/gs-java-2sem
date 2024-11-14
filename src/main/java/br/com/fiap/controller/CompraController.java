@@ -1,6 +1,10 @@
 package br.com.fiap.controller;
 
+import br.com.fiap.dto.CompraDto;
 import br.com.fiap.exceptions.NotFoundException;
+import br.com.fiap.exceptions.NotSavedException;
+import br.com.fiap.exceptions.UnsupportedServiceOperationException;
+import br.com.fiap.model.Compra;
 import br.com.fiap.model.CompraProduto;
 import br.com.fiap.model.Produto;
 import br.com.fiap.service.compra.ServiceCompra;
@@ -9,7 +13,9 @@ import br.com.fiap.service.compra.ServiceCompraFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Path("/compra")
 public class CompraController {
@@ -41,5 +47,30 @@ public class CompraController {
         }
     }
 
-
+    @POST
+    @Path("/salvaCompra")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response salvaCompra(CompraDto compraDto) throws UnsupportedServiceOperationException {
+        if (compraDto.idCompra() == null){
+            try {
+                Compra compra = this.compraService.save(new Compra(null, compraDto.valorCompra(), compraDto.isPago(), compraDto.quantidadeParcelas(),compraDto.idUsuario()));
+                return Response.status(Response.Status.CREATED).
+                        entity(compra).
+                        build();
+            } catch (SQLException | NotSavedException e){
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity(Map.of("mensagem","erro inesperado ao tentar inserir compra: " + e)).build();
+            }
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(
+                            Map.of(
+                                    "mensagem",
+                                    "esse método só permite a criação de novas compras"))
+                    .build();
+        }
+    }
 }
+
+
