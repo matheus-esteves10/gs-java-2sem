@@ -15,4 +15,6 @@ public interface ServiceUsuario {
 
     void deleteById (Long id) throws NotFoundException, SQLException;
 
+    Usuario realizarLogin(String login, String senha) throws NotFoundException;
+
 }

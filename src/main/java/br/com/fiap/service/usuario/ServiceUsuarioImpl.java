@@ -47,4 +47,8 @@ public class ServiceUsuarioImpl implements ServiceUsuario {
         this.dao.deleteById(id, connection);
         connection.commit();
     }
+
+    public Usuario realizarLogin(String login, String senha) throws NotFoundException {
+        return dao.checkLogin(login, senha);
+    }
 }

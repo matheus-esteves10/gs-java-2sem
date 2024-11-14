@@ -88,7 +88,7 @@ public class UsuarioController {
         }
 
         if (usuario != null) {
-            return Response.ok(Map.of("mensagem", "usuario autorizado")).build();
+            return Response.ok(usuario).build();
         } else {
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Credenciais inválidas").build();

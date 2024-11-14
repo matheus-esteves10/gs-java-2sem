@@ -6,6 +6,7 @@ import br.com.fiap.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public interface DaoUsuario {
 
@@ -14,4 +15,7 @@ public interface DaoUsuario {
     Usuario update(Usuario usuario, Connection connection) throws SQLException, NotFoundException;
 
     void deleteById (Long id, Connection connection) throws SQLException, NotFoundException;
+
+
+    Usuario checkLogin(String login, String senha) throws NotFoundException;
 }
