@@ -7,30 +7,38 @@ public class Compra {
     private Long idCompra;
     private Double valorCompra;
     private Boolean isPago;
+    private int numeroParcelas;
     private List<CompraProduto> produtos;
     private Long idUsuario;
 
     public Compra() {
     }
 
-    public Compra(Long idCompra, Double valorCompra, Boolean isPago, Long idUsuario) {
+    public Compra(Long idCompra, Double valorCompra, Boolean isPago, int numeroParcelas, Long idUsuario) {
         this.idCompra = idCompra;
-        this.valorCompra = valorCompra;
+        this.produtos = null; // Inicialize adequadamente
         this.isPago = isPago;
+        this.numeroParcelas = numeroParcelas;
         this.idUsuario = idUsuario;
+        atualizarValorCompra();
     }
 
     public Long getIdCompra() {
         return idCompra;
     }
 
+    public void setIdCompra(Long idCompra) {
+        this.idCompra = idCompra;
+    }
 
     public Double getValorCompra() {
         return valorCompra;
     }
 
-    public void setValorCompra(Double valorCompra) {
-        this.valorCompra = valorCompra;
+    public void atualizarValorCompra() {
+        if (produtos != null) {
+            this.valorCompra = calcularValorTotal();
+        }
     }
 
     public Boolean getPago() {
@@ -38,11 +46,15 @@ public class Compra {
     }
 
     public void setPago(Boolean pago) {
-        isPago = pago;
+        this.isPago = pago;
     }
 
-    public void setIdCompra(Long idCompra) {
-        this.idCompra = idCompra;
+    public int getNumeroParcelas() {
+        return numeroParcelas;
+    }
+
+    public void setNumeroParcelas(int numeroParcelas) {
+        this.numeroParcelas = numeroParcelas;
     }
 
     public Long getIdUsuario() {
@@ -53,21 +65,10 @@ public class Compra {
         this.idUsuario = idUsuario;
     }
 
-    public boolean isPago() {
-        return isPago;
-    }
-
-    public void setPago(boolean pago) {
-        if(pago(isPago) == true) {
-            this.isPago = pago;
-        } else {
-            throw new RuntimeException("O item precisa ser pago para ser adicionado a lista de comprados");
-        }
-    }
-
     public Double calcularValorTotal() {
+        if (produtos == null) return 0.0;
         return produtos.stream()
-                .mapToDouble(cp -> cp.().getValorProduto() * cp.getQuantidade())
+                .mapToDouble(cp -> cp.getProduto().getValorProduto() * cp.getQuantidade())
                 .sum();
     }
 

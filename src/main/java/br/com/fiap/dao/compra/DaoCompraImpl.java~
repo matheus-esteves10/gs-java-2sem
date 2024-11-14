@@ -36,15 +36,13 @@ public class DaoCompraImpl implements DaoCompra {
         ResultSet rsQuant = null;
 
         try {
-            // Obtém a conexão com o banco de dados
             connection = DatabaseConnectionFactory.create().get();
 
             // Preparar as consultas SQL
             stmtValor = connection.prepareStatement("SELECT valor_produto FROM t_sph_produtos WHERE id_produto = ?");
             stmtQuant = connection.prepareStatement("SELECT quantidade FROM t_sph_compra_produto WHERE t_sph_produtos_id_produto = ?");
 
-
-            for (Long idProduto : idsProdutos) {
+            for (Long idProduto : idsProduto) {
                 // Obter o valor do produto
                 stmtValor.setLong(1, idProduto);
                 rsValor = stmtValor.executeQuery();
@@ -57,11 +55,11 @@ public class DaoCompraImpl implements DaoCompra {
                     // Criar um objeto CompraProduto e configurar seus valores
                     CompraProduto compraProduto = new CompraProduto();
                     Produto produto = new Produto();
-                    produto.setValorProduto(rsValor.getDouble("valor_produto"));
+                    produto.setValorProduto(rsValor.getDouble("valor_produto")); // Configura o valor do produto
                     compraProduto.setProduto(produto);
-                    compraProduto.setQuantidade(rsQuant.getInt("quantidade"));
+                    compraProduto.setQuantidade(rsQuant.getInt("quantidade")); // Configura a quantidade
 
-                    compraProdutos.add(compraProduto);
+                    compraProdutos.add(compraProduto); // Adicionar o objeto à lista
                 } else {
                     throw new NotFoundException();
                 }

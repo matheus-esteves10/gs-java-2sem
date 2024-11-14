@@ -27,7 +27,7 @@ public class CompraController {
     // Endpoint para calcular o valor total da compra
     @POST
     @Path("/calcularValorTotal")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)  
     @Produces(MediaType.APPLICATION_JSON)
     public Response calcularValorTotal(List<Long> idsProdutos) {
         try {
