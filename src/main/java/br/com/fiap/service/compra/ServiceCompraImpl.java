@@ -4,32 +4,62 @@ import br.com.fiap.dao.compra.DaoCompra;
 import br.com.fiap.dao.compra.DaoCompraFactory;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.model.CompraProduto;
+import br.com.fiap.model.Produto;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceCompraImpl implements ServiceCompra {
 
     private final DaoCompra dao = DaoCompraFactory.create();
 
     @Override
-    public double calcularValorTotal(List<Long> idsProdutos) {
+    public double calcularValorTotal(List<CompraProduto> produtos) throws NotFoundException {
+        double valorTotal = 0.0;
 
-        List<CompraProduto> compraProdutos = null;
-        try {
-            compraProdutos = dao.buscarProdutosPorCompra(idsProdutos);
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
+        // Extrair todos os ids dos produtos para passar para a DAO
+        List<Long> idsProdutos = new ArrayList<>();
+        for (CompraProduto compraProduto : produtos) {
+            Produto produto = compraProduto.getProduto();  // Produto já atribuído ao CompraProduto
+            if (produto == null || produto.getIdProduto() == null) {
+                throw new NotFoundException();
+            }
+            idsProdutos.add(produto.getIdProduto());
+        }
+
+        List<Produto> valoresProduto = dao.buscarValorProdutos(idsProdutos);
+
+        Map<Long, Double> mapValoresProduto = new HashMap<>(); // Mapeando os valores dos produtos para facilitar o acesso
+        for (Produto produto : valoresProduto) {
+            mapValoresProduto.put(produto.getIdProduto(), produto.getValorProduto());
         }
 
 
-        double valorTotal = 0.0;
+        for (CompraProduto compraProduto : produtos) { // Mapear os valores dos produtos para facilitar o acesso
+            Produto produto = compraProduto.getProduto();  // Produto com valor atribuído
+            Long idProduto = produto.getIdProduto();
+            Integer quantidade = compraProduto.getQuantidade();
 
-        for (CompraProduto compraProduto : compraProdutos) {
-            double valorProduto = compraProduto.getProduto().getValorProduto();
-            int quantidade = compraProduto.getQuantidade();
+            if (quantidade == null) {
+                throw new NotFoundException();
+            }
+
+            // Obter o valor do produto a partir do map
+            Double valorProduto = mapValoresProduto.get(idProduto);
+
+            if (valorProduto == null) {
+                throw new NotFoundException();
+            }
+
+            // Calcular o valor total e somar ao valor total
             valorTotal += valorProduto * quantidade;
         }
 
         return valorTotal;
     }
+
+
 }
+

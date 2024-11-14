@@ -2,8 +2,6 @@ package br.com.fiap.dao.compra;
 
 import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.exceptions.NotFoundException;
-import br.com.fiap.model.Compra;
-import br.com.fiap.model.CompraProduto;
 import br.com.fiap.model.Produto;
 
 import java.sql.Connection;
@@ -27,38 +25,28 @@ public class DaoCompraImpl implements DaoCompra {
 
 
     @Override
-    public List<CompraProduto> buscarProdutosPorCompra(List<Long> idsProdutos) throws NotFoundException {
-        List<CompraProduto> compraProdutos = new ArrayList<>();
+    public List<Produto> buscarValorProdutos(List<Long> idsProdutos) throws NotFoundException {
+        List<Produto> valoresProduto = new ArrayList<>();
         Connection connection = null;
         PreparedStatement stmtValor = null;
-        PreparedStatement stmtQuant = null;
         ResultSet rsValor = null;
-        ResultSet rsQuant = null;
 
         try {
             connection = DatabaseConnectionFactory.create().get();
 
-            //consultas SQL para pegar o valor e quantidade
-            stmtValor = connection.prepareStatement("SELECT valor_produto FROM t_sph_produtos WHERE id_produto = ?");
-            stmtQuant = connection.prepareStatement("SELECT quantidade FROM t_sph_compra_produto WHERE t_sph_produtos_id_produto = ?");
 
+            stmtValor = connection.prepareStatement("SELECT id_produto, valor_produto FROM t_sph_produtos WHERE id_produto = ?");
 
-            for (Long idProduto : idsProdutos) { //valor e quantidade de cada id
+            for (Long idProduto : idsProdutos) {
                 stmtValor.setLong(1, idProduto);
                 rsValor = stmtValor.executeQuery();
 
-                stmtQuant.setLong(1, idProduto);
-                rsQuant = stmtQuant.executeQuery();
-
-                if (rsValor.next() && rsQuant.next()) {
-                    //atribuindo os valores a coluna do database
-                    CompraProduto compraProduto = new CompraProduto();
+                if (rsValor.next()) {
                     Produto produto = new Produto();
+                    produto.setIdProduto(rsValor.getLong("id_produto"));
                     produto.setValorProduto(rsValor.getDouble("valor_produto"));
-                    compraProduto.setProduto(produto);
-                    compraProduto.setQuantidade(rsQuant.getInt("quantidade"));
 
-                    compraProdutos.add(compraProduto);
+                    valoresProduto.add(produto);
                 } else {
                     throw new NotFoundException();
                 }
@@ -68,16 +56,16 @@ public class DaoCompraImpl implements DaoCompra {
         } finally {
             try {
                 if (rsValor != null) rsValor.close();
-                if (rsQuant != null) rsQuant.close();
                 if (stmtValor != null) stmtValor.close();
-                if (stmtQuant != null) stmtQuant.close();
                 if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        return compraProdutos;
+        return valoresProduto;
     }
+
+
 
 }

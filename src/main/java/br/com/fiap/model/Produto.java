@@ -23,6 +23,9 @@ public class Produto {
         return idProduto;
     }
 
+    public void setIdProduto(Long idProduto) {
+        this.idProduto = idProduto;
+    }
 
     public String getNomeProduto() {
         return nomeProduto;
