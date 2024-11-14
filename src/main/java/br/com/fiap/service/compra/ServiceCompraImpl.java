@@ -1,17 +1,10 @@
-package br.com.fiap.service.itemCompra;
+package br.com.fiap.service.compra;
 
-import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.dao.compra.DaoCompra;
 import br.com.fiap.dao.compra.DaoCompraFactory;
 import br.com.fiap.exceptions.NotFoundException;
-
-import br.com.fiap.exceptions.NotSavedException;
-import br.com.fiap.exceptions.UnsupportedServiceOperationException;
-import br.com.fiap.model.Compra;
 import br.com.fiap.model.CompraProduto;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ServiceCompraImpl implements ServiceCompra {
@@ -19,7 +12,16 @@ public class ServiceCompraImpl implements ServiceCompra {
     private final DaoCompra dao = DaoCompraFactory.create();
 
     @Override
-    public double calcularValorTotal(List<CompraProduto> compraProdutos) {
+    public double calcularValorTotal(List<Long> idsProdutos) {
+
+        List<CompraProduto> compraProdutos = null;
+        try {
+            compraProdutos = dao.buscarProdutosPorCompra(idsProdutos);
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         double valorTotal = 0.0;
 
         for (CompraProduto compraProduto : compraProdutos) {
@@ -28,6 +30,6 @@ public class ServiceCompraImpl implements ServiceCompra {
             valorTotal += valorProduto * quantidade;
         }
 
-        return valorTotal; 
+        return valorTotal;
     }
 }

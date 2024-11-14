@@ -1,4 +1,4 @@
-package br.com.fiap.service.itemCompra;
+package br.com.fiap.service.compra;
 
 public final class ServiceCompraFactory {
 

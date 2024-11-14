@@ -36,25 +36,22 @@ public class DaoCompraImpl implements DaoCompra {
         ResultSet rsQuant = null;
 
         try {
-            // Obtém a conexão com o banco de dados
             connection = DatabaseConnectionFactory.create().get();
 
-            // Preparar as consultas SQL
+            //consultas SQL para pegar o valor e quantidade
             stmtValor = connection.prepareStatement("SELECT valor_produto FROM t_sph_produtos WHERE id_produto = ?");
             stmtQuant = connection.prepareStatement("SELECT quantidade FROM t_sph_compra_produto WHERE t_sph_produtos_id_produto = ?");
 
 
-            for (Long idProduto : idsProdutos) {
-                // Obter o valor do produto
+            for (Long idProduto : idsProdutos) { //valor e quantidade de cada id
                 stmtValor.setLong(1, idProduto);
                 rsValor = stmtValor.executeQuery();
 
-                // Obter a quantidade do produto
                 stmtQuant.setLong(1, idProduto);
                 rsQuant = stmtQuant.executeQuery();
 
                 if (rsValor.next() && rsQuant.next()) {
-                    // Criar um objeto CompraProduto e configurar seus valores
+                    //atribuindo os valores a coluna do database
                     CompraProduto compraProduto = new CompraProduto();
                     Produto produto = new Produto();
                     produto.setValorProduto(rsValor.getDouble("valor_produto"));
