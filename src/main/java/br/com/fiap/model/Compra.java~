@@ -1,26 +1,25 @@
 package br.com.fiap.model;
 
-import java.util.List;
-
 public class Compra {
 
     private Long idCompra;
     private Double valorCompra;
-    private Boolean isPago;
+    private Integer isPago; // Altere para Integer para facilitar a compatibilidade com o banco de dados
     private int numeroParcelas;
-    private List<CompraProduto> produtos;
     private Long idUsuario;
 
     public Compra() {
     }
 
     public Compra(Long idCompra, Double valorCompra, Boolean isPago, int numeroParcelas, Long idUsuario) {
+        if (isPago != null && !isPago) {
+            throw new IllegalArgumentException("A compra não pode ser construída com isPago = false.");
+        }
         this.idCompra = idCompra;
-        this.produtos = null; // Inicialize adequadamente
-        this.isPago = isPago;
+        this.valorCompra = valorCompra;
+        this.isPago = (isPago != null && isPago) ? 1 : 0; 
         this.numeroParcelas = numeroParcelas;
         this.idUsuario = idUsuario;
-        atualizarValorCompra();
     }
 
     public Long getIdCompra() {
@@ -35,18 +34,12 @@ public class Compra {
         return valorCompra;
     }
 
-    public void atualizarValorCompra() {
-        if (produtos != null) {
-            this.valorCompra = calcularValorTotal();
-        }
-    }
-
-    public Boolean getPago() {
+    public Integer getIsPago() {
         return isPago;
     }
 
-    public void setPago(Boolean pago) {
-        this.isPago = pago;
+    public void setIsPago(Boolean pago) {
+        this.isPago = (pago != null && pago) ? 1 : 0;
     }
 
     public int getNumeroParcelas() {
@@ -63,20 +56,5 @@ public class Compra {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public Double calcularValorTotal() {
-        if (produtos == null) return 0.0;
-        return produtos.stream()
-                .mapToDouble(cp -> cp.getProduto().getValorProduto() * cp.getQuantidade())
-                .sum();
-    }
-
-    public boolean pago(boolean isPago){
-        if (isPago){
-            return true;
-        } else {
-            return false;
-        }
     }
 }

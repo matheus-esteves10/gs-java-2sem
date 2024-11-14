@@ -1,12 +1,10 @@
 package br.com.fiap.model;
 
-import java.util.List;
-
 public class Compra {
 
     private Long idCompra;
     private Double valorCompra;
-    private Boolean isPago;
+    private Integer isPago; // Altere para Integer para facilitar a compatibilidade com o banco de dados
     private int numeroParcelas;
     private Long idUsuario;
 
@@ -14,9 +12,12 @@ public class Compra {
     }
 
     public Compra(Long idCompra, Double valorCompra, Boolean isPago, int numeroParcelas, Long idUsuario) {
+        if (isPago != null && !isPago) {
+            throw new IllegalArgumentException("A compra não pode ser construída com isPago = false.");
+        }
         this.idCompra = idCompra;
         this.valorCompra = valorCompra;
-        this.isPago = isPago;
+        this.isPago = (isPago != null && isPago) ? 1 : 0;
         this.numeroParcelas = numeroParcelas;
         this.idUsuario = idUsuario;
     }
@@ -33,13 +34,12 @@ public class Compra {
         return valorCompra;
     }
 
-
-    public Boolean getPago() {
+    public Integer getIsPago() {
         return isPago;
     }
 
-    public void setPago(Boolean pago) {
-        this.isPago = pago;
+    public void setIsPago(Boolean pago) {
+        this.isPago = (pago != null && pago) ? 1 : 0;
     }
 
     public int getNumeroParcelas() {
@@ -56,13 +56,5 @@ public class Compra {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public boolean pago(boolean isPago){
-        if (isPago){
-            return true;
-        } else {
-            return false;
-        }
     }
 }
