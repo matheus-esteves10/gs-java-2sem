@@ -1,6 +1,7 @@
 package br.com.fiap.dao.usuario;
 
 import br.com.fiap.config.DatabaseConnectionFactory;
+import br.com.fiap.dto.LoginDto2;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.model.Usuario;
@@ -79,7 +80,7 @@ public class DaoUsuarioImpl implements DaoUsuario {
     }
 
     @Override
-    public Usuario checkLogin(String login, String senha) {
+    public LoginDto2 checkLogin(String login, String senha) {
         final String sql = "SELECT * FROM t_sph_usuario WHERE (EMAIL = ?  AND SENHA = ?) OR (CPF = ? AND SENHA = ?)";
 
         try (Connection connection = DatabaseConnectionFactory.create().get()) {
@@ -93,12 +94,14 @@ public class DaoUsuarioImpl implements DaoUsuario {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setEmail(rs.getString("EMAIL"));
-                usuario.setCpf(rs.getString("CPF"));
-                usuario.setSenha(rs.getString("SENHA"));
+                LoginDto2 loginDto2 = new LoginDto2();
+                loginDto2.setId(rs.getLong("ID_USUARIO"));
+                loginDto2.setNome(rs.getString("NOME"));
+//                usuario.setEmail(rs.getString("EMAIL"));
+//                usuario.setCpf(rs.getString("CPF"));
+//                usuario.setSenha(rs.getString("SENHA"));
 
-                return usuario;
+                return loginDto2;
             }
         } catch (SQLException e) {
             e.printStackTrace();

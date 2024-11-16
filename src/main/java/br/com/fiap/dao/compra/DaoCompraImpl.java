@@ -67,15 +67,16 @@ public class DaoCompraImpl implements DaoCompra {
 
     @Override
     public Compra save(Compra compra, Connection connection) throws SQLException, NotSavedException {
-        final String sql = "Begin INSERT INTO t_sph_compra (valor_compra, is_pago, T_SPH_USUARIO_ID_USUARIO, quant_parcelas) VALUES (?, ?, ?, ?) RETURNING ID_COMPRA INTO ?; END;";
+        final String sql = "Begin INSERT INTO t_sph_compra (valor_compra, is_pago, T_SPH_USUARIO_ID_USUARIO, quant_parcelas, data_compra) VALUES (?, ?, ?, ?, ?) RETURNING ID_COMPRA INTO ?; END;";
         CallableStatement callableStatement = connection.prepareCall(sql);
         callableStatement.setDouble(1, compra.getValorCompra());
         callableStatement.setInt(2, compra.getIsPago());
         callableStatement.setLong(3, compra.getIdUsuario());
         callableStatement.setInt(4, compra.getNumeroParcelas());
-        callableStatement.registerOutParameter(5, Types.NUMERIC);
+        callableStatement.setDate(5, Date.valueOf(compra.getDataCompra()));
+        callableStatement.registerOutParameter(6, Types.NUMERIC);
         callableStatement.execute();
-        long id = callableStatement.getInt(5);
+        long id = callableStatement.getInt(6);
         if (id == 0) {
             throw new NotSavedException();
         }

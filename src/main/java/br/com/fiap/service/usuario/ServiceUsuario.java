@@ -1,5 +1,6 @@
 package br.com.fiap.service.usuario;
 
+import br.com.fiap.dto.LoginDto2;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.exceptions.UnsupportedServiceOperationException;
@@ -15,6 +16,6 @@ public interface ServiceUsuario {
 
     void deleteById (Long id) throws NotFoundException, SQLException;
 
-    Usuario realizarLogin(String login, String senha) throws NotFoundException;
+    LoginDto2 realizarLogin(String login, String senha) throws NotFoundException;
 
 }

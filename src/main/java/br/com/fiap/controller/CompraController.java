@@ -54,7 +54,7 @@ public class CompraController {
     public Response salvaCompra(CompraDto compraDto) throws UnsupportedServiceOperationException {
         if (compraDto.idCompra() == null){
             try {
-                Compra compra = this.compraService.save(new Compra(null, compraDto.valorCompra(), compraDto.isPago(), compraDto.quantidadeParcelas(),compraDto.idUsuario()));
+                Compra compra = this.compraService.save(new Compra(null, compraDto.valorCompra(), compraDto.isPago(), compraDto.quantidadeParcelas(),compraDto.idUsuario(), compraDto.dataCompra()));
                 return Response.status(Response.Status.CREATED).
                         entity(compra).
                         build();

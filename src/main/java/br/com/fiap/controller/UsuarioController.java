@@ -1,6 +1,7 @@
 package br.com.fiap.controller;
 
 import br.com.fiap.dto.LoginDto;
+import br.com.fiap.dto.LoginDto2;
 import br.com.fiap.dto.UsuarioDto;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
@@ -80,7 +81,7 @@ public class UsuarioController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginDto loginDto) {
 
-        Usuario usuario = null;
+        LoginDto2 usuario = null;
         try {
             usuario = serviceUsuario.realizarLogin(loginDto.login(), loginDto.senha());
         } catch (NotFoundException e) {
@@ -88,7 +89,7 @@ public class UsuarioController {
         }
 
         if (usuario != null) {
-            return Response.ok(Map.of("mensagem", "usuario autorizado")).build();
+            return Response.ok(usuario).build();
         } else {
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Credenciais inválidas").build();

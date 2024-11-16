@@ -1,5 +1,6 @@
 package br.com.fiap.dao.usuario;
 
+import br.com.fiap.dto.LoginDto2;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.model.Usuario;
@@ -17,5 +18,5 @@ public interface DaoUsuario {
     void deleteById (Long id, Connection connection) throws SQLException, NotFoundException;
 
 
-    Usuario checkLogin(String login, String senha) throws NotFoundException;
+    LoginDto2 checkLogin(String login, String senha) throws NotFoundException;
 }

@@ -4,6 +4,7 @@ import br.com.fiap.config.DatabaseConnection;
 import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.dao.usuario.DaoUsuario;
 import br.com.fiap.dao.usuario.UsuarioDaoFactory;
+import br.com.fiap.dto.LoginDto2;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.exceptions.UnsupportedServiceOperationException;
@@ -48,7 +49,7 @@ public class ServiceUsuarioImpl implements ServiceUsuario {
         connection.commit();
     }
 
-    public Usuario realizarLogin(String login, String senha) throws NotFoundException {
+    public LoginDto2 realizarLogin(String login, String senha) throws NotFoundException {
         return dao.checkLogin(login, senha);
     }
 }

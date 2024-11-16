@@ -80,7 +80,7 @@ public class DaoUsuarioImpl implements DaoUsuario {
 
     @Override
     public Usuario checkLogin(String login, String senha) {
-        final String sql = "SELECT * FROM t_ WHERE (EMAIL = ?  AND SENHA = ?) OR (CPF = ? AND SENHA = ?)";
+        final String sql = "SELECT * FROM t_sph_usuario WHERE (EMAIL = ?  AND SENHA = ?) OR (CPF = ? AND SENHA = ?)";
 
         try (Connection connection = DatabaseConnectionFactory.create().get()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -94,9 +94,11 @@ public class DaoUsuarioImpl implements DaoUsuario {
 
             if (rs.next()) {
                 Usuario usuario = new Usuario();
-                usuario.setEmail(rs.getString("EMAIL"));
-                usuario.setCpf(rs.getString("CPF"));
-                usuario.setSenha(rs.getString("SENHA"));
+                usuario.setId(rs.getLong("ID_USUARIO"));
+                usuario.setNome(rs.getString("NOME"));
+//                usuario.setEmail(rs.getString("EMAIL"));
+//                usuario.setCpf(rs.getString("CPF"));
+//                usuario.setSenha(rs.getString("SENHA"));
 
                 return usuario;
             }
