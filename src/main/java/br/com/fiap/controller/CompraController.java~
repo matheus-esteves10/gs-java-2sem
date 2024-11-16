@@ -52,29 +52,22 @@ public class CompraController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response salvaCompra(CompraDto compraDto) throws UnsupportedServiceOperationException {
-        if (compraDto.idCompra() == null) {
+        if (compraDto.idCompra() == null){
             try {
-                Compra compra = new Compra(
-                        null,
-                        compraDto.valorCompra(),
-                        compraDto.isPago(),
-                        compraDto.quantidadeParcelas(),
-                        compraDto.idUsuario(),
-                        compraDto.dataCompra(),
-                        compraDto.produtos()
-                );
-
-                compra = this.compraService.save(compra);
-                return Response.status(Response.Status.CREATED)
-                        .entity(compra)
-                        .build();
-            } catch (SQLException | NotSavedException e) {
+                Compra compra = this.compraService.save(new Compra(null, compraDto.valorCompra(), compraDto.isPago(), compraDto.quantidadeParcelas(),compraDto.idUsuario(), compraDto.dataCompra()));
+                return Response.status(Response.Status.CREATED).
+                        entity(compra).
+                        build();
+            } catch (SQLException | NotSavedException e){
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity(Map.of("mensagem", "Erro inesperado ao tentar inserir compra: " + e)).build();
+                        .entity(Map.of("mensagem","erro inesperado ao tentar inserir compra: " + e)).build();
             }
         } else {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(Map.of("mensagem", "Esse método só permite a criação de novas compras"))
+                    .entity(
+                            Map.of(
+                                    "mensagem",
+                                    "esse método só permite a criação de novas compras"))
                     .build();
         }
     }

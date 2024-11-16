@@ -4,6 +4,7 @@ import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.model.Compra;
+import br.com.fiap.model.CompraProduto;
 import br.com.fiap.model.Produto;
 
 import java.sql.*;
@@ -67,8 +68,9 @@ public class DaoCompraImpl implements DaoCompra {
 
     @Override
     public Compra save(Compra compra, Connection connection) throws SQLException, NotSavedException {
-        final String sql = "Begin INSERT INTO t_sph_compra (valor_compra, is_pago, T_SPH_USUARIO_ID_USUARIO, quant_parcelas, data_compra) VALUES (?, ?, ?, ?, ?) RETURNING ID_COMPRA INTO ?; END;";
-        CallableStatement callableStatement = connection.prepareCall(sql);
+        final String sqlCompra = "BEGIN INSERT INTO t_sph_compra (valor_compra, is_pago, T_SPH_USUARIO_ID_USUARIO, quant_parcelas, data_compra) VALUES (?, ?, ?, ?, ?) RETURNING ID_COMPRA INTO ?; END;";
+        CallableStatement callableStatement = connection.prepareCall(sqlCompra);
+
         callableStatement.setDouble(1, compra.getValorCompra());
         callableStatement.setInt(2, compra.getIsPago());
         callableStatement.setLong(3, compra.getIdUsuario());
@@ -76,13 +78,29 @@ public class DaoCompraImpl implements DaoCompra {
         callableStatement.setDate(5, Date.valueOf(compra.getDataCompra()));
         callableStatement.registerOutParameter(6, Types.NUMERIC);
         callableStatement.execute();
-        long id = callableStatement.getInt(6);
-        if (id == 0) {
+
+        long idCompra = callableStatement.getLong(6);
+        if (idCompra == 0) {
             throw new NotSavedException();
         }
-        compra.setIdCompra(id);
+
+        compra.setIdCompra(idCompra);
+
+        // Inserção na tabela t_sph_compra_produto
+        final String sqlCompraProduto = "INSERT INTO t_sph_compra_produto (t_sph_compra_id_compra, t_sph_produtos_id_produto, quantidade) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlCompraProduto);
+
+        for (CompraProduto produto : compra.getItensCompra()) {
+            preparedStatement.setLong(1, idCompra);
+            preparedStatement.setLong(2, produto.getIdProduto());
+            preparedStatement.setInt(3, produto.getQuantidade());
+            preparedStatement.addBatch();
+        }
+
+        preparedStatement.executeBatch();
         return compra;
     }
+
 
 
 }

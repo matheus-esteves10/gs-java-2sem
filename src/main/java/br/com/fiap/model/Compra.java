@@ -1,6 +1,7 @@
 package br.com.fiap.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Compra {
 
@@ -10,11 +11,12 @@ public class Compra {
     private int numeroParcelas;
     private Long idUsuario;
     private LocalDate dataCompra;
+    private List<CompraProduto> itensCompra;
 
     public Compra() {
     }
 
-    public Compra(Long idCompra, Double valorCompra, Boolean isPago, int numeroParcelas, Long idUsuario, LocalDate dataCompra) {
+    public Compra(Long idCompra, Double valorCompra, Boolean isPago, int numeroParcelas, Long idUsuario, LocalDate dataCompra, List<CompraProduto> itensCompra) {
         if (isPago != null && !isPago) {
             throw new IllegalArgumentException("A compra não pode ser construída com isPago = false.");
         }
@@ -24,6 +26,7 @@ public class Compra {
         this.numeroParcelas = numeroParcelas;
         this.idUsuario = idUsuario;
         setDataCompra(dataCompra);
+        this.itensCompra = itensCompra;
     }
 
     public Long getIdCompra() {
@@ -68,5 +71,9 @@ public class Compra {
 
     public void setDataCompra(LocalDate dataCompra) {
         this.dataCompra = LocalDate.now();
+    }
+
+    public List<CompraProduto> getItensCompra() {
+        return itensCompra;
     }
 }

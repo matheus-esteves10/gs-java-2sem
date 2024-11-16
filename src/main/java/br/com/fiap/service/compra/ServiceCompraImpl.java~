@@ -68,7 +68,7 @@ public class ServiceCompraImpl implements ServiceCompra {
 
     @Override
     public Compra save(Compra compra) throws UnsupportedServiceOperationException, SQLException, NotSavedException {
-        if (compra.getIdCompra() == null) {
+        if(compra.getIdCompra() == null) {
             Connection connection = DatabaseConnectionFactory.create().get();
             try {
                 compra = this.dao.save(compra, connection);
@@ -82,5 +82,7 @@ public class ServiceCompraImpl implements ServiceCompra {
             throw new UnsupportedServiceOperationException();
         }
     }
+
+
 }
 
