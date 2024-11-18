@@ -4,6 +4,7 @@ import br.com.fiap.config.DatabaseConnectionFactory;
 import br.com.fiap.exceptions.NotFoundException;
 import br.com.fiap.exceptions.NotSavedException;
 import br.com.fiap.model.Compra;
+import br.com.fiap.model.CompraProduto;
 import br.com.fiap.model.Produto;
 
 import java.sql.*;
@@ -89,7 +90,7 @@ public class DaoCompraImpl implements DaoCompra {
         final String sqlCompraProduto = "INSERT INTO t_sph_compra_produto (t_sph_compra_id_compra, t_sph_produtos_id_produto, quantidade) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlCompraProduto);
 
-        for (Produto produto : compra.getProdutos()) { // Assumindo que a entidade Compra tem uma lista de produtos
+        for (CompraProduto produto : compra.getItensCompra()) {
             preparedStatement.setLong(1, idCompra);
             preparedStatement.setLong(2, produto.getIdProduto());
             preparedStatement.setInt(3, produto.getQuantidade());
@@ -99,7 +100,5 @@ public class DaoCompraImpl implements DaoCompra {
         preparedStatement.executeBatch();
         return compra;
     }
-
-
 
 }

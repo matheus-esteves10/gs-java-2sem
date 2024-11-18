@@ -19,7 +19,7 @@ public class DaoProdutoImpl implements DaoProduto{
     @Override
     public List<Produto> readAll() {
         List<Produto> result = new ArrayList<>();
-        final String sql = "SELECT * FROM t_sph_produto";
+        final String sql = "SELECT * FROM t_sph_produtos";
         try(Connection connection = DatabaseConnectionFactory.create().get()){
             PreparedStatement pstm = connection.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
@@ -29,7 +29,10 @@ public class DaoProdutoImpl implements DaoProduto{
                 Double valor = rs.getDouble("valor_produto");
                 String imagem = rs.getString("imagem_produto");
                 String ds = rs.getString("ds_produto");
-                result.add(new Produto(id, nome, valor, imagem, ds));
+                float eficiencia = rs.getFloat("eficiencia_produto");
+                int potencia = rs.getInt("potencia_produto");
+
+                result.add(new Produto(id, nome, valor, imagem, ds, eficiencia, potencia));
             }
         } catch (SQLException e){
             logger.warning("não foi possível localizar nenhum registro dos produtos: "+e.getMessage());
@@ -39,7 +42,7 @@ public class DaoProdutoImpl implements DaoProduto{
 
     @Override
     public Produto readById(Long id) throws NotFoundException {
-        final String sql = "SELECT * FROM t_sph_produto WHERE id_produto = ?";
+        final String sql = "SELECT * FROM t_sph_produtos WHERE id_produto = ?";
         try(Connection connection = DatabaseConnectionFactory.create().get()){
             PreparedStatement pstm = connection.prepareStatement(sql);
 

@@ -4,5 +4,7 @@ public record ProdutoDto(Long id,
                          String nome,
                          Double valor,
                          String imagem,
-                         String descricao) {
+                         String descricao,
+                         float eficiencia,
+                         int potencia) {
 }

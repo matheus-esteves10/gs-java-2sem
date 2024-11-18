@@ -29,7 +29,10 @@ public class DaoProdutoImpl implements DaoProduto{
                 Double valor = rs.getDouble("valor_produto");
                 String imagem = rs.getString("imagem_produto");
                 String ds = rs.getString("ds_produto");
-                result.add(new Produto(id, nome, valor, imagem, ds));
+                float eficiencia = rs.getFloat("eficiencia_produto");
+                int potencia = rs.getInt("potencia_produto");
+
+                result.add(new Produto(id, nome, valor, imagem, ds, eficiencia, potencia));
             }
         } catch (SQLException e){
             logger.warning("não foi possível localizar nenhum registro dos produtos: "+e.getMessage());
@@ -50,7 +53,9 @@ public class DaoProdutoImpl implements DaoProduto{
                     Double valor = rs.getDouble("valor_produto");
                     String imagem = rs.getString("imagem_produto");
                     String ds = rs.getString("ds_produto");
-                    return new Produto(id, nome, valor, imagem, ds);
+                    float eficiencia = rs.getFloat("eficiencia_produto");
+                    int potencia = rs.getInt("potencia_produto");
+                    return new Produto(id, nome, valor, imagem, ds, eficiencia, potencia);
                 } else {
                     throw new NotFoundException();
                 }

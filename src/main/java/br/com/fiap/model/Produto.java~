@@ -8,19 +8,17 @@ public class Produto {
     private String imagemProduto;
     private String dsProduto;
     private float eficiencia;
-    private int potencia;
+    private int 
 
     public Produto() {
     }
 
-    public Produto(Long idProduto, String nomeProduto, Double valorProduto, String imagemProduto, String dsProduto, float eficiencia, int potencia) {
+    public Produto(Long idProduto, String nomeProduto, Double valorProduto, String imagemProduto, String dsProduto) {
         this.idProduto = idProduto;
         this.nomeProduto = nomeProduto;
         this.valorProduto = valorProduto;
         this.imagemProduto = imagemProduto;
         this.dsProduto = dsProduto;
-        this.eficiencia = eficiencia;
-        this.potencia = potencia;
     }
 
     public Long getIdProduto() {
@@ -61,21 +59,5 @@ public class Produto {
 
     public void setDsProduto(String dsProduto) {
         this.dsProduto = dsProduto;
-    }
-
-    public float getEficiencia() {
-        return eficiencia;
-    }
-
-    public void setEficiencia(float eficiencia) {
-        this.eficiencia = eficiencia;
-    }
-
-    public int getPotencia() {
-        return potencia;
-    }
-
-    public void setPotencia(int potencia) {
-        this.potencia = potencia;
     }
 }

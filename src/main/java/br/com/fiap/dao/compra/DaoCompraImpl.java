@@ -100,7 +100,4 @@ public class DaoCompraImpl implements DaoCompra {
         preparedStatement.executeBatch();
         return compra;
     }
-
-
-
 }
