@@ -1,6 +1,0 @@
-package br.com.fiap.dao.produto;
-
-public interface DaoProduto {
-
-    
-}
