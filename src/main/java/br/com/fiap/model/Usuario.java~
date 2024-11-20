@@ -2,7 +2,6 @@ package br.com.fiap.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Usuario {
 
@@ -23,7 +22,7 @@ public class Usuario {
         this.id = id;
         this.senha = senha;
         this.endereco = endereco;
-        setEmail(email);
+        this.email = email;
         this.dataNacimento = dataNacimento;
         setCpf(cpf);
         this.nome = nome;
@@ -70,10 +69,6 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
-        String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        if (email == null || !Pattern.matches(EMAIL_REGEX, email)) {
-            throw new IllegalArgumentException("Email inválido");
-        }
         this.email = email;
     }
 
